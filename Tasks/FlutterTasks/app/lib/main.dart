@@ -5,10 +5,15 @@ import "screens/NewsApp_Screen.dart";
 import "screens/notez_screen.dart";
 import "screens/StudentAvgMark_Screen.dart";
 import "screens/StudentFormScreen.dart";
+import "package:firebase_core/firebase_core.dart";
+import "screens/firebase_options.dart";
+import "screens/Firebase_authScreen.dart";
+import "screens/FireStore_Screen.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox("NotesStorage");
   runApp(MyApp());
@@ -42,6 +47,8 @@ class _HomeState extends State<Home> {
     NotezScreen(),
     StudentMarksScreen(),
     FormStudent(),
+    AuthScreen(),
+    Firestore(),
   ];
 
   List<String> namesScreens = [
@@ -50,6 +57,8 @@ class _HomeState extends State<Home> {
     "Task3-Notez App",
     "Task4-Marks Calculate App",
     "Task5-Student Form App",
+    "Task6-Authentication Firebase App",
+    "Task7-FireStore Firebase App",
   ];
 
   List<IconData> screenIcons = [
@@ -58,6 +67,8 @@ class _HomeState extends State<Home> {
     Icons.school,
     Icons.assignment,
     Icons.note,
+    Icons.lock,
+    Icons.store,
   ];
 
   @override
@@ -126,6 +137,26 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   selectIndex = 4;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[5]),
+              title: Text(namesScreens[5]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 5;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[6]),
+              title: Text(namesScreens[6]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 6;
                 });
                 Navigator.pop(context);
               },
