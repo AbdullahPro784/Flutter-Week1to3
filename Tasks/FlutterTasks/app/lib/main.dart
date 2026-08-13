@@ -9,6 +9,7 @@ import "package:firebase_core/firebase_core.dart";
 import "screens/firebase_options.dart";
 import "screens/Firebase_authScreen.dart";
 import "screens/FireStore_Screen.dart";
+import "screens/Firebase_profile_screen.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,7 @@ class _HomeState extends State<Home> {
     FormStudent(),
     AuthScreen(),
     Firestore(),
+    ProfileScreen(),
   ];
 
   List<String> namesScreens = [
@@ -59,6 +61,7 @@ class _HomeState extends State<Home> {
     "Task5-Student Form App",
     "Task6-Authentication Firebase App",
     "Task7-FireStore Firebase App",
+    "Task8-Firebase Profile Screen App",
   ];
 
   List<IconData> screenIcons = [
@@ -69,6 +72,7 @@ class _HomeState extends State<Home> {
     Icons.note,
     Icons.lock,
     Icons.store,
+    Icons.person,
   ];
 
   @override
@@ -157,6 +161,16 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   selectIndex = 6;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[7]),
+              title: Text(namesScreens[7]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 7;
                 });
                 Navigator.pop(context);
               },
