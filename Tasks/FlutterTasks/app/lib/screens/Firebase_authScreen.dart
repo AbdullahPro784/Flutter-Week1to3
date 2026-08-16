@@ -1,25 +1,9 @@
+import 'package:app/main.dart';
+import 'package:app/screens/MyTasks.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'firebase_options.dart';
-import '../main.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(colorSchemeSeed: Colors.indigo, useMaterial3: true),
-      home: AuthScreen(),
-    );
-  }
-}
+import "Signup_Screen.dart";
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -29,18 +13,42 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final email = TextEditingController();
   final password = TextEditingController();
-  String msg = "";
 
   void showErrorDialog(String txt) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("$txt fail"),
-        content: Text("$txt process failed. Try again!"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Column(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.red.shade50,
+              child: Icon(Icons.error_outline, color: Colors.red, size: 45),
+            ),
+            SizedBox(height: 15),
+
+            Text(
+              "Login Failed",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+            Text(
+              txt,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15, color: Colors.black),
+            ),
+          ],
+        ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
+          SizedBox(
+            width: 120,
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Try Again"),
+            ),
           ),
         ],
       ),
@@ -63,45 +71,27 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  Future<void> signUp() async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.text.trim(),
-        password: password.text.trim(),
-      );
-      setState(() {
-        msg =
-            "Account creation successful! ${FirebaseAuth.instance.currentUser?.email}";
-        showSuccessDialog("Signup");
-      });
-    } catch (e) {
-      setState(() {
-        msg = "Failed to create account. Error";
-        showErrorDialog("Signup");
-      });
-    }
-  }
-
   Future<void> signIn() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       );
-      setState(() {
-        msg = "Login Successful as ${FirebaseAuth.instance.currentUser?.email}";
-        showSuccessDialog("Login");
-      });
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Tasks()),
+      );
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        msg = "Error $e ! Login fail ";
-        showErrorDialog("Login");
-      });
+      showErrorDialog(
+        e.message ??
+            "Error $e ! Login failed. Please check ur email and password. ",
+      );
     }
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         title: Text("Auth Screen"),
         titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -148,13 +138,19 @@ class _AuthScreenState extends State<AuthScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(onPressed: signUp, child: Text("Sign up")),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignupScreen()),
+                      );
+                    },
+                    child: Text("Sign up"),
+                  ),
                   SizedBox(height: 30, width: 20),
                   ElevatedButton(onPressed: signIn, child: Text("Sign in")),
                 ],
               ),
-
-              Text(msg),
             ],
           ),
         ),

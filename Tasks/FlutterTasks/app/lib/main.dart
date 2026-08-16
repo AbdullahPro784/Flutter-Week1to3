@@ -10,6 +10,8 @@ import "screens/firebase_options.dart";
 import "screens/Firebase_authScreen.dart";
 import "screens/FireStore_Screen.dart";
 import "screens/Firebase_profile_screen.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "screens/MyTasks.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +27,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Tasks Screens",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: Home(),
+      home: AuthPath(),
     );
+  }
+}
+
+class AuthPath extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return Home();
+    } else {
+      return AuthScreen();
+    }
   }
 }
 
@@ -42,6 +56,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int selectIndex = 0;
 
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: ((context) => AuthScreen())),
+    );
+  }
+
   List<Widget> screens = [
     FoodScreen(),
     NewsScreen(),
@@ -51,6 +74,7 @@ class _HomeState extends State<Home> {
     AuthScreen(),
     Firestore(),
     ProfileScreen(),
+    Tasks(),
   ];
 
   List<String> namesScreens = [
@@ -62,6 +86,7 @@ class _HomeState extends State<Home> {
     "Task6-Authentication Firebase App",
     "Task7-FireStore Firebase App",
     "Task8-Firebase Profile Screen App",
+    "Task9-My Tasks App",
   ];
 
   List<IconData> screenIcons = [
@@ -73,6 +98,7 @@ class _HomeState extends State<Home> {
     Icons.lock,
     Icons.store,
     Icons.person,
+    Icons.note,
   ];
 
   @override
@@ -87,6 +113,13 @@ class _HomeState extends State<Home> {
           fontWeight: FontWeight.bold,
         ),
         iconTheme: IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            onPressed: logout,
+            icon: Icon(Icons.logout),
+            tooltip: "Sign out",
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -174,6 +207,21 @@ class _HomeState extends State<Home> {
                 });
                 Navigator.pop(context);
               },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[8]),
+              title: Text(namesScreens[8]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 8;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text("LogOut", style: TextStyle(color: Colors.red)),
+              onTap: logout,
             ),
           ],
         ),

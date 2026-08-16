@@ -1,17 +1,46 @@
-# app
+# Flutter & Dart Tasks 🚀
 
-A new Flutter project.
+A collection of Flutter & Dart practice tasks covering UI, APIs, local storage, forms, and Firebase.
 
-## Getting Started
+## ✅ Completed Tasks
 
-This project is a starting point for a Flutter application.
+| # | Task | Concepts |
+|---|------|----------|
+| 1 | 🍔 Food App | ListView, Lists |
+| 2 | 📰 News App | REST API, JSON, FutureBuilder |
+| 3 | 📝 Notez App | Hive, Local Storage, CRUD |
+| 4 | 📊 Student Marks | Lists, Calculations, Average |
+| 5 | 📋 Student Form | Forms, Radio, Checkbox, Dropdown, Navigation |
+| 6 | 🔐 Firebase Authentication | Sign Up, Sign In, Firebase Auth |
+| 7 | ☁️ Firestore App | Firestore CRUD, StreamBuilder |
+| 8 | 👤 Firebase Profile | Firestore, Forms, StreamBuilder |
 
-A few resources to get you started if this is your first Flutter project:
+## 🔜 Upcoming Tasks
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+More Flutter & Dart tasks will be added as I continue learning.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🎯 Learning Goals
+
+- Flutter UI & Layouts
+- Forms & Validation
+- API Integration
+- Local Storage
+- Firebase
+- CRUD Operations
+- Navigation
+- State Management
+- Advanced Flutter Concepts
+
+## 🛠️ Technologies
+
+- Flutter
+- Dart
+- Firebase
+- Cloud Firestore
+- Firebase Authentication
+- Hive
+- REST APIs
+
+---
+
+⭐ More tasks coming soon!
