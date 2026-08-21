@@ -12,6 +12,7 @@ import "screens/FireStore_Screen.dart";
 import "screens/Firebase_profile_screen.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "screens/MyTasks.dart";
+import "screens/getxNote.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +76,7 @@ class _HomeState extends State<Home> {
     Firestore(),
     ProfileScreen(),
     Tasks(),
+    GetxNote(),
   ];
 
   List<String> namesScreens = [
@@ -87,6 +89,7 @@ class _HomeState extends State<Home> {
     "Task7-FireStore Firebase App",
     "Task8-Firebase Profile Screen App",
     "Task9-My Tasks App",
+    "Task10-Getx Note App",
   ];
 
   List<IconData> screenIcons = [
@@ -99,6 +102,7 @@ class _HomeState extends State<Home> {
     Icons.store,
     Icons.person,
     Icons.note,
+    Icons.note_sharp,
   ];
 
   @override
@@ -214,6 +218,16 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   selectIndex = 8;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[9]),
+              title: Text(namesScreens[9]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 9;
                 });
                 Navigator.pop(context);
               },
