@@ -13,6 +13,8 @@ import "screens/Firebase_profile_screen.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "screens/MyTasks.dart";
 import "screens/getxNote.dart";
+import "screens/rvrPodNote.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +22,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox("NotesStorage");
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -77,6 +79,7 @@ class _HomeState extends State<Home> {
     ProfileScreen(),
     Tasks(),
     GetxNote(),
+    RiverpodNote(),
   ];
 
   List<String> namesScreens = [
@@ -90,6 +93,7 @@ class _HomeState extends State<Home> {
     "Task8-Firebase Profile Screen App",
     "Task9-My Tasks App",
     "Task10-Getx Note App",
+    "Task11-RiverPod Note App",
   ];
 
   List<IconData> screenIcons = [
@@ -103,6 +107,7 @@ class _HomeState extends State<Home> {
     Icons.person,
     Icons.note,
     Icons.note_sharp,
+    Icons.notes_rounded,
   ];
 
   @override
@@ -228,6 +233,16 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   selectIndex = 9;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[10]),
+              title: Text(namesScreens[10]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 10;
                 });
                 Navigator.pop(context);
               },
