@@ -7,6 +7,8 @@ import "firebase_options.dart";
 class Firestore extends StatelessWidget {
   final refUser = FirebaseFirestore.instance.collection("users");
 
+  Firestore({super.key});
+
   Future<void> addUser() async {
     await refUser.add({
       "email": "test${DateTime.now().millisecondsSinceEpoch}@example.com",

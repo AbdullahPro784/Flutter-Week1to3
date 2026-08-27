@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }

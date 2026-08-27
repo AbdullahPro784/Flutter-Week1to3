@@ -15,6 +15,8 @@ import "screens/MyTasks.dart";
 import "screens/getxNote.dart";
 import "screens/rvrPodNote.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "screens/MapBox_screen.dart";
+import "package:mapbox_maps_flutter/mapbox_maps_flutter.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +24,14 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Hive.initFlutter();
   await Hive.openBox("NotesStorage");
+
+  MapboxOptions.setAccessToken("pk.Access_token");
   runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,6 +47,8 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthPath extends StatelessWidget {
+  const AuthPath({super.key});
+
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -52,6 +60,8 @@ class AuthPath extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -80,6 +90,7 @@ class _HomeState extends State<Home> {
     Tasks(),
     GetxNote(),
     RiverpodNote(),
+    MapboxScreen(),
   ];
 
   List<String> namesScreens = [
@@ -94,6 +105,7 @@ class _HomeState extends State<Home> {
     "Task9-My Tasks App",
     "Task10-Getx Note App",
     "Task11-RiverPod Note App",
+    "Task12-Map box App",
   ];
 
   List<IconData> screenIcons = [
@@ -108,6 +120,7 @@ class _HomeState extends State<Home> {
     Icons.note,
     Icons.note_sharp,
     Icons.notes_rounded,
+    Icons.location_city,
   ];
 
   @override
@@ -243,6 +256,16 @@ class _HomeState extends State<Home> {
               onTap: () {
                 setState(() {
                   selectIndex = 10;
+                });
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(screenIcons[11]),
+              title: Text(namesScreens[11]),
+              onTap: () {
+                setState(() {
+                  selectIndex = 11;
                 });
                 Navigator.pop(context);
               },
