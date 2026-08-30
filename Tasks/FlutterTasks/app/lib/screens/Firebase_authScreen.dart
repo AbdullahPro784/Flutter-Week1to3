@@ -2,7 +2,6 @@ import 'package:app/main.dart';
 import 'package:app/screens/MyTasks.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import "Signup_Screen.dart";
 
 class AuthScreen extends StatefulWidget {
@@ -81,7 +80,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Tasks()),
+        MaterialPageRoute(builder: (context) => Home()),
       );
     } on FirebaseAuthException catch (e) {
       showErrorDialog(

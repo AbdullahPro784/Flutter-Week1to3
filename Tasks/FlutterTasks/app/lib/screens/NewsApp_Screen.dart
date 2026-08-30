@@ -3,6 +3,8 @@ import "dart:convert";
 import "package:http/http.dart" as http;
 
 class NewsScreen extends StatefulWidget {
+  const NewsScreen({super.key});
+
   @override
   State<NewsScreen> createState() => _NewsScreenState();
 }

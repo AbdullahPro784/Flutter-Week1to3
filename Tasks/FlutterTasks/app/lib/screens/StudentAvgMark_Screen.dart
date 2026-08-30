@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 
 class StudentMarksScreen extends StatelessWidget {
+  const StudentMarksScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     List<double> marks1 = [12, 53, 23];

@@ -12,6 +12,8 @@ class FoodScreen extends StatelessWidget {
     "Starter",
   ];
 
+  FoodScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

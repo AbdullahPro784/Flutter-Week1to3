@@ -1,10 +1,10 @@
-import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:app/main.dart";
-import "package:hive_ce_flutter/adapters.dart";
 
 class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
+
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }

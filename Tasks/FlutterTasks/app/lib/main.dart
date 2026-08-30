@@ -72,9 +72,10 @@ class _HomeState extends State<Home> {
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
 
-    Navigator.pushReplacement(
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: ((context) => AuthScreen())),
+      (route)=>false,
     );
   }
 

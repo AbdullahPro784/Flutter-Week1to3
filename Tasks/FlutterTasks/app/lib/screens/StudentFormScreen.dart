@@ -5,6 +5,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +20,8 @@ class MyApp extends StatelessWidget {
 }
 
 class FormStudent extends StatefulWidget {
+  const FormStudent({super.key});
+
   @override
   _FormStudentState createState() => _FormStudentState();
 }
@@ -136,7 +140,7 @@ class ResultScreen extends StatelessWidget {
   String name, father, gender, city;
   bool python, java, kotlin;
 
-  ResultScreen({
+  ResultScreen({super.key, 
     required this.name,
     required this.father,
     required this.gender,

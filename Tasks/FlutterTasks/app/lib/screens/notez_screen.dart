@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import "package:hive_ce_flutter/hive_ce_flutter.dart";
 
 class NotezScreen extends StatefulWidget {
+  const NotezScreen({super.key});
+
   @override
   State<NotezScreen> createState() => _NotezScreenState();
 }

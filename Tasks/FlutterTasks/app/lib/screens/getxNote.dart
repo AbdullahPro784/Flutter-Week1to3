@@ -35,6 +35,8 @@ class ControllerNotes extends GetxController {
 }
 
 class GetxNote extends StatefulWidget {
+  const GetxNote({super.key});
+
   @override
   State<GetxNote> createState() => _GetxNoteState();
 }
