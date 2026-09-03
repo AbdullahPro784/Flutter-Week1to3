@@ -11,7 +11,7 @@ class AuthService {
       );
       return true;
     } catch (error) {
-      print("Error during register: " + error.toString());
+      print("Error during register: $error");
       return false;
     }
   }
@@ -24,7 +24,7 @@ class AuthService {
       );
       return true;
     } catch (error) {
-      print("Error during login: " + error.toString());
+      print("Error during login: $error");
       return false;
     }
   }

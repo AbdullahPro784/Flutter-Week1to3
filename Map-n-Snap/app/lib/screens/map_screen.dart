@@ -50,7 +50,9 @@ class MapScreen extends StatelessWidget {
           ),
           children: [
             TileLayer(
-              urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+              urlTemplate:
+                  "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+              userAgentPackageName: "com.user.mapnsnap",
             ),
             MarkerLayer(markers: tripMarkers),
           ],

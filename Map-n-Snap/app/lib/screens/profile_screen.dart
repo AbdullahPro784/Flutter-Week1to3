@@ -32,7 +32,7 @@ class Profile extends StatelessWidget {
             const SizedBox(height: 20),
             CircleAvatar(
               radius: 50,
-              backgroundColor: Constants.primaryColor.withOpacity(0.2),
+              backgroundColor: Constants.primaryColor.withValues(alpha: 0.2),
               child: Icon(
                 Icons.person,
                 size: 60,

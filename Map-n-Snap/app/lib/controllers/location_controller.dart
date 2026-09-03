@@ -102,7 +102,7 @@ class LocationController extends GetxController {
       return true;
     } catch (error) {
       isSavingForm.value = false;
-      Get.snackbar("Error", " Unable to continue: " + error.toString());
+      Get.snackbar("Error", " Unable to continue: $error");
       return false;
     }
   }

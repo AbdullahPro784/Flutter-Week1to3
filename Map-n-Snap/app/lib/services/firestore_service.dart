@@ -38,7 +38,7 @@ class FirestoreService {
         .snapshots()
         .map((snapshot) {
           return snapshot.docs.map((doc) {
-            return Location.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+            return Location.fromMap(doc.data(), doc.id);
           }).toList();
         });
   }

@@ -8,8 +8,6 @@ import "package:app/utils/constants.dart";
 import "package:app/utils/helpers.dart";
 import "dart:convert";
 import "dart:typed_data";
-import "dart:io";
-import "package:flutter/foundation.dart";
 
 class LocationDetail extends StatelessWidget {
   final Location location;
@@ -18,52 +16,29 @@ class LocationDetail extends StatelessWidget {
 
   Widget _buildSafeImage(String photoData) {
     try {
-      if (photoData.startsWith("http") || photoData.startsWith("blob:")) {
-        return Image.network(
-          photoData,
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-        );
+      if (photoData.length < 1000) {
+        return _errorBox("Old File. Add a new Pin!");
       }
 
-      if (photoData.startsWith("/") || photoData.startsWith("C:")) {
-        if (kIsWeb) return _errorBox("Local file blocked on Web");
-        return Image.file(
-          File(photoData),
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-        );
+      String cleanBase64 = photoData;
+
+      if (cleanBase64.contains(",")) {
+        cleanBase64 = cleanBase64.split(",").last;
       }
 
-      if (photoData.length > 1000) {
-        String cleanBase64 = photoData;
+      cleanBase64 = cleanBase64.replaceAll(RegExp(r"\s+"), "");
 
-        if (cleanBase64.contains(",")) {
-          cleanBase64 = cleanBase64.split(",").last;
-        }
+      Uint8List bytes = base64Decode(cleanBase64);
 
-        cleanBase64 = cleanBase64.replaceAll(RegExp(r"\s+"), "");
-
-        Uint8List bytes = base64Decode(cleanBase64);
-
-        return Image.memory(
-          bytes,
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return _errorBox("Base64 Render Error");
-          },
-        );
-      }
-
-      String preview = photoData.length > 15
-          ? "${photoData.substring(0, 15)}..."
-          : photoData;
-
-      return _errorBox("Unknown:\n$preview");
+      return Image.memory(
+        bytes,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _errorBox("Render Error");
+        },
+      );
     } catch (e) {
       return _errorBox("Failed Decode");
     }
@@ -78,11 +53,7 @@ class LocationDetail extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         msg,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 11),
         textAlign: TextAlign.center,
       ),
     );
@@ -135,7 +106,7 @@ class LocationDetail extends StatelessWidget {
                 border: Border.all(color: Colors.grey.shade300),
               ),
               child: Text(
-                location.notes.isEmpty ? "No notes added yet." : location.notes,
+                location.notes.isEmpty ? "No notes added." : location.notes,
                 style: const TextStyle(fontSize: 15),
               ),
             ),
@@ -163,7 +134,7 @@ class LocationDetail extends StatelessWidget {
                   ),
             const SizedBox(height: 25),
             const Text(
-              "Location on Map:",
+              "Location Map:",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -189,7 +160,7 @@ class LocationDetail extends StatelessWidget {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
                       userAgentPackageName: "com.user.mapnsnap",
                     ),
                     MarkerLayer(
@@ -220,7 +191,9 @@ class LocationDetail extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: const Text("Delete Location"),
-          content: Text('Are you sure you want to delete "${location.title}"?'),
+          content: Text(
+            "Are you sure you want to delete \"${location.title}\"?",
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -232,7 +205,9 @@ class LocationDetail extends StatelessWidget {
                 await Get.find<LocationController>().deleteLocation(
                   location.id,
                 );
-                if (context.mounted) Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
                 Get.snackbar("Deleted", "Location removed successfully");
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),

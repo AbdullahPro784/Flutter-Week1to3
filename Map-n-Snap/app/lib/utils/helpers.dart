@@ -8,7 +8,7 @@ class Helpers {
     String month = date.month.toString();
     String year = date.year.toString();
 
-    return day + "/" + month + "/" + year;
+    return "$day/$month/$year";
   }
 
   static void showMessage(BuildContext context, String message) {

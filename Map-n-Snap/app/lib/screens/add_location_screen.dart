@@ -1,9 +1,11 @@
 import "dart:io";
+
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:latlong2/latlong.dart";
+
 import "package:app/controllers/location_controller.dart";
 import "package:app/utils/constants.dart";
 import "package:app/utils/helpers.dart";
@@ -16,9 +18,17 @@ class AddLocation extends StatefulWidget {
 }
 
 class _AddLocationState extends State<AddLocation> {
-  TextEditingController titleBox = TextEditingController();
-  TextEditingController experienceBox = TextEditingController();
-  LocationController locationController = Get.find<LocationController>();
+  final TextEditingController titleBox = TextEditingController();
+  final TextEditingController experienceBox = TextEditingController();
+
+  final LocationController locationController = Get.find<LocationController>();
+
+  @override
+  void dispose() {
+    titleBox.dispose();
+    experienceBox.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +48,7 @@ class _AddLocationState extends State<AddLocation> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
+
             TextField(
               controller: titleBox,
               decoration: InputDecoration(
@@ -58,6 +69,7 @@ class _AddLocationState extends State<AddLocation> {
                 ),
               ),
             ),
+
             const SizedBox(height: 22),
 
             const Text(
@@ -65,6 +77,7 @@ class _AddLocationState extends State<AddLocation> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
+
             TextField(
               controller: experienceBox,
               maxLines: 4,
@@ -89,12 +102,15 @@ class _AddLocationState extends State<AddLocation> {
                 ),
               ),
             ),
+
             const SizedBox(height: 20),
+
             const Text("Date you visited?", style: TextStyle(fontSize: 16)),
+
             Obx(() {
               return ElevatedButton(
                 onPressed: () async {
-                  var chosenDate = await showDatePicker(
+                  final DateTime? chosenDate = await showDatePicker(
                     context: context,
                     initialDate: locationController.selectedDate.value,
                     firstDate: DateTime(2000),
@@ -110,13 +126,16 @@ class _AddLocationState extends State<AddLocation> {
                 ),
               );
             }),
+
             const SizedBox(height: 20),
 
             const Text(
               "Tap map to pinpoint location:",
               style: TextStyle(fontSize: 16),
             ),
+
             const SizedBox(height: 10),
+
             Container(
               height: 200,
               color: Colors.grey,
@@ -135,8 +154,10 @@ class _AddLocationState extends State<AddLocation> {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          "https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+                      userAgentPackageName: "com.example.app",
                     ),
+
                     if (locationController.selectedLatitude.value != null)
                       MarkerLayer(
                         markers: [
@@ -157,8 +178,11 @@ class _AddLocationState extends State<AddLocation> {
                 );
               }),
             ),
+
             const SizedBox(height: 20),
+
             const Text("Photos:", style: TextStyle(fontSize: 16)),
+
             ElevatedButton(
               onPressed: () {
                 locationController.pickImages();
@@ -190,6 +214,7 @@ class _AddLocationState extends State<AddLocation> {
                                 height: 80,
                                 fit: BoxFit.cover,
                               ),
+
                         TextButton(
                           onPressed: () {
                             locationController.removeImage(i);
@@ -204,38 +229,35 @@ class _AddLocationState extends State<AddLocation> {
                 ],
               );
             }),
+
             const SizedBox(height: 30),
 
             Obx(() {
-              if (locationController.isSavingForm.value == true) {
+              if (locationController.isSavingForm.value) {
                 return const Center(child: CircularProgressIndicator());
-              } else {
-                return SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.primaryColor,
-                    ),
-                    onPressed: () async {
-                      bool isSuccess = await locationController.saveLocation(
-                        titleBox.text,
-                        experienceBox.text,
-                      );
-
-                      if (isSuccess == true) {
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                        }
-                      }
-                    },
-                    child: const Text(
-                      "Save Location",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                );
               }
+
+              return SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Constants.primaryColor,
+                  ),
+                  onPressed: () async {
+                    final bool isSuccess = await locationController
+                        .saveLocation(titleBox.text, experienceBox.text);
+
+                    if (isSuccess && context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: const Text(
+                    "Save Location",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              );
             }),
           ],
         ),
