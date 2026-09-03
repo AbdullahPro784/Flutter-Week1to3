@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"map-n-snap","appId":"1:303111226645:android:1b61ca77cf80d86b59551c","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"map-n-snap","configurations":{"android":"1:303111226645:android:1b61ca77cf80d86b59551c","web":"1:303111226645:web:9e6515ceca463a8f59551c"}}}}}}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "303111226645",
+    "project_id": "map-n-snap",
+    "storage_bucket": "map-n-snap.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303111226645:android:1b61ca77cf80d86b59551c",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4HHvCEfIKAIa933FlI6Tey_9f3d4zdPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
