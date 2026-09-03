@@ -8,6 +8,8 @@ import "package:app/utils/constants.dart";
 import "package:app/utils/helpers.dart";
 import "dart:convert";
 import "dart:typed_data";
+import "dart:io";
+import "package:flutter/foundation.dart";
 
 class LocationDetail extends StatelessWidget {
   final Location location;
@@ -16,24 +18,52 @@ class LocationDetail extends StatelessWidget {
 
   Widget _buildSafeImage(String photoData) {
     try {
-      if (photoData.length < 1000) {
-        return _errorBox("Old File. Add a new Pin!");
+      if (photoData.startsWith("http") || photoData.startsWith("blob:")) {
+        return Image.network(
+          photoData,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        );
       }
 
-      String cleanBase64 = photoData;
-      if (cleanBase64.contains(',')) {
-        cleanBase64 = cleanBase64.split(',').last;
+      if (photoData.startsWith("/") || photoData.startsWith("C:")) {
+        if (kIsWeb) return _errorBox("Local file blocked on Web");
+        return Image.file(
+          File(photoData),
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        );
       }
-      cleanBase64 = cleanBase64.replaceAll(RegExp(r'\s+'), '');
 
-      Uint8List bytes = base64Decode(cleanBase64);
-      return Image.memory(
-        bytes,
-        width: 100,
-        height: 100,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => _errorBox("Render Error"),
-      );
+      if (photoData.length > 1000) {
+        String cleanBase64 = photoData;
+
+        if (cleanBase64.contains(",")) {
+          cleanBase64 = cleanBase64.split(",").last;
+        }
+
+        cleanBase64 = cleanBase64.replaceAll(RegExp(r"\s+"), "");
+
+        Uint8List bytes = base64Decode(cleanBase64);
+
+        return Image.memory(
+          bytes,
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return _errorBox("Base64 Render Error");
+          },
+        );
+      }
+
+      String preview = photoData.length > 15
+          ? "${photoData.substring(0, 15)}..."
+          : photoData;
+
+      return _errorBox("Unknown:\n$preview");
     } catch (e) {
       return _errorBox("Failed Decode");
     }
@@ -48,7 +78,11 @@ class LocationDetail extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         msg,
-        style: const TextStyle(color: Colors.white, fontSize: 11),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
         textAlign: TextAlign.center,
       ),
     );
@@ -156,7 +190,7 @@ class LocationDetail extends StatelessWidget {
                     TileLayer(
                       urlTemplate:
                           "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      userAgentPackageName: 'com.user.mapnsnap',
+                      userAgentPackageName: "com.user.mapnsnap",
                     ),
                     MarkerLayer(
                       markers: [
